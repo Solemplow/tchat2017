@@ -24,3 +24,9 @@ function creerXHR() {
 	
 	return xhr;
 }
+function requeteAjax(){
+ 		var MAXHR = creerXHR();
+ 		if (MAXHR === null){
+ 			echo "Ton naviguateur supporte pas ket";
+ 		}
+}
