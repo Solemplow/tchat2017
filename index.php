@@ -1,17 +1,66 @@
 <?php
-/* 
- * Cette page sera notre contrôleur frontal
- */
 
-// ouverture de session
+
+
 session_start();
 
-// importation de config.php
-require_once 'config.php';
 
-// variables provisoires
-$login = "admin";
-$pass = "123";
+// importation de config.php
+
+require_once 'config.php';
+require_once 'db.class.php';
+$db = new DB(DB_HOST,DB_LOGIN,DB_PASS,DB_NAME); 
+
+
+
+require_once 'fonctions.php';
+
+
+if(isset($_GET['inscription'])){
+    require_once 'inscription.php';
+    
+}elseif(isset($_GET['confirm'])&&isset($_GET['id'])&&isset($_GET['c'])&&
+        ctype_digit($_GET['id']) && !empty($_GET['c'])
+        ){
+        $id = (int) $_GET['id'];
+        $clef = htmlspecialchars($_GET['c'],ENT_QUOTES);
+    require_once 'confirm.php';
+
+}
+
+
+elseif(!isset($_SESSION['clef_de_session'])){
+     if(isset($_GET['actif'])){
+                if($_GET['actif']=="ok"){
+                    $dit = "Félicitation vous venez d'activer votre compte!";
+                }else{
+                    $dit = "Votre compte est déjà actif";
+                }
+        }
+    require_once 'accueil.php';
+}else{
+    
+    if($_SESSION['clef_de_session']== session_id()){
+        
+        if(isset($_GET['action'])){
+           
+            switch($_GET['action']){
+
+                case "deco":
+                    header("Location: disconnect.php");
+                    break;
+
+                default :
+                    header("Location: ./");
+            }
+        }else{
+           
+            require_once 'base.php';
+        }
+    }else{
+        header("Location: disconnect.php");
+    }
+}
 
 // SI nous ne sommes pas connectés
 
@@ -27,6 +76,8 @@ $pass = "123";
 
 // John modidifie ajax.js pour pouvoir envoyer des infos du formulaire vers php=>sql=>php
 
-// igor, crée des fichiers .php qui vont afficher les données venant de la db, ou insérer dans la db depuois un formulaire
+// igor, crée des fichiers .php qui vont afficher les données venant de la db, ou insérer dans la db depuois un formulaire (insertion db)
+
 
 // Mounir, passe chez tout le monde, et trouve le moyen d'harmoniser le travail des différents intervenants
+

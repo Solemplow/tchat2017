@@ -5,46 +5,46 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema tchatIgor
+-- Schema sql8614_tchat
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `sql8614_tchat` ;
 
 -- -----------------------------------------------------
--- Schema tchatIgor
+-- Schema sql8614_tchat
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `tchatIgor` DEFAULT CHARACTER SET utf8 ;
-USE `tchatIgor` ;
+CREATE SCHEMA IF NOT EXISTS `sql8614_tchat` DEFAULT CHARACTER SET utf8 ;
+USE `sql8614_tchat` ;
 
 -- -----------------------------------------------------
--- Table `tchatIgor`.`util`
+-- Table `sql8614_tchat`.`util`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tchatIgor`.`util` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `login` VARCHAR(50) NOT NULL,
-  `mdp` TEXT NOT NULL,
-  `mail` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+CREATE TABLE IF NOT EXISTS `sql8614_tchat`.`util` (
+  `idutil` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `login` VARCHAR(45) NOT NULL,
+  `mdp` VARCHAR(32) NOT NULL,
+  `mail` VARCHAR(80) NOT NULL,
+  `clefutil` VARCHAR(64) NOT NULL,
+`actif` tinyint(1) NOT NULL COMMENT 'actif à 1',
+  PRIMARY KEY (`idutil`))
 ENGINE = InnoDB;
 
+ALTER TABLE `util`
+  ADD UNIQUE KEY `login_UNIQUE` (`login`),
+  ADD UNIQUE KEY `clefutil` (`clefutil`);
+
 
 -- -----------------------------------------------------
--- Table `tchatIgor`.`message`
+-- Table `sql8614_tchat`.`message`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tchatIgor`.`message` (
+CREATE TABLE IF NOT EXISTS `sql8614_tchat`.`message` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `titre` VARCHAR(50) NOT NULL,
+  `texte` VARCHAR(120) NOT NULL,
   `ladate` TIMESTAMP NOT NULL DEFAULT NOW(),
-  `util_id` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `fk_message_util_idx` (`util_id` ASC),
-  CONSTRAINT `fk_message_util`
-    FOREIGN KEY (`util_id`)
-    REFERENCES `tchatIgor`.`util` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = '		';
+  `util_idutil` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_message_util_idx` ON `sql8614_tchat`.`message` (`util_idutil` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
