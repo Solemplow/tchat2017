@@ -134,7 +134,7 @@ function getLastsMessage()
 			// Récéption des derniers méssage encodé en JSON
 			// On boucle chaque message pour l'envoyer a la fonction pushLastMessage
 			for (var i = (Object.keys(data).length-1); i >= 0; i--) {
-				pushLastMessage(data[i].texte, data[i].login, data[i].ladate);
+				pushLastMessage(data[i].texte, data[i].login, data[i].ladate, data[i].mail);
 			}
 		}
 	}
@@ -143,11 +143,11 @@ function getLastsMessage()
 
 // Insertion du message
 
-function pushLastMessage(message, username, date)
+function pushLastMessage(message, username, date, mail)
 {	
 	// Ajout des balises HTML dans le DOM
 	chat.innerHTML += "<li class='other'>" + 
-	"<div class='avatar'><img src='images/avatar.png' draggable='false'/></div></div>" + 
+	"<div class='avatar'><img src='https://api.adorable.io/avatars/40/" + mail + ".png' draggable='false'/></div></div>" + 
 	"<div class='msg'>" +
 	"<p id='colorenvoie'>" + username + "</p>" +
 	"<p>" + message + "</p>" +
